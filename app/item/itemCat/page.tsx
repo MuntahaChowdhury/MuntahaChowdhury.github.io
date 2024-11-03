@@ -16,9 +16,11 @@ type OptionType = {
 };
 
 const CreateItemCategoryPage = () => {
-  <Suspense fallback={<div>Loading...</div>}>
-    <InnerCreateItemCategoryPage />
-  </Suspense>
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <InnerCreateItemCategoryPage />
+    </Suspense>
+  )
 }
 
 const InnerCreateItemCategoryPage = () => {
