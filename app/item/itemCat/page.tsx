@@ -1,5 +1,4 @@
 "use client";
-console.log('reached');
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Shuttle from '@/component/ui/shuttle'; // Adjust the import path as needed
@@ -17,12 +16,15 @@ type OptionType = {
 };
 
 const CreateItemCategoryPage = () => {
+console.log('reachede');
   <Suspense fallback={<div>Loading...</div>}>
     <InnerCreateItemCategoryPage />
   </Suspense>
 }
 
 const InnerCreateItemCategoryPage = () => {
+console.log('reacheded');
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialCatCls = searchParams.get('catCls') || '';
@@ -128,6 +130,7 @@ const InnerCreateItemCategoryPage = () => {
   };
 
   return (
+console.log('reachedede');
     <div className="container mx-auto">
       <h1 className="text-2xl font-bold mb-4 text-black">Create New Item Category</h1>
 
