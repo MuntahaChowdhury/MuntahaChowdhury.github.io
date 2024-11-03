@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Shuttle from '@/component/ui/shuttle'; // Adjust the import path as needed
 import MultiSelectDropdown from '@/component/ui/msDropDown'; // Adjust the import path as needed
@@ -17,6 +17,12 @@ type OptionType = {
 };
 
 const CreateItemCategoryPage = () => {
+  <Suspense fallback={<div>Loading...</div>}>
+    <InnerCreateItemCategoryPage />
+  </Suspense>
+}
+
+const InnerCreateItemCategoryPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialCatCls = searchParams.get('catCls') || '';
