@@ -16,7 +16,6 @@ type OptionType = {
 };
 
 const CreateItemCategoryPage = () => {
-console.log('reachede');
   <Suspense fallback={<div>Loading...</div>}>
     <InnerCreateItemCategoryPage />
   </Suspense>
@@ -130,7 +129,6 @@ console.log('reacheded');
   };
 
   return (
-console.log('reachedede');
     <div className="container mx-auto">
       <h1 className="text-2xl font-bold mb-4 text-black">Create New Item Category</h1>
 
