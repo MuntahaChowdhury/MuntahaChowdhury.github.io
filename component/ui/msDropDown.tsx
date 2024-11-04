@@ -66,6 +66,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, sele
           }}
           components={{
             MultiValue: () => null, // Prevents the bubbles from showing
+            ClearIndicator: () => null, // Hides the clear indicator
           }}
         />
       </div>

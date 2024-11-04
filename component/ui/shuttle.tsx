@@ -1,19 +1,29 @@
+// imports
 import React, { useEffect, useState } from 'react';
 
+
+// Props
 interface ShuttleProps {
   options: string[];
   selectedOptions: string[];
   onChange: (selected: string[]) => void;
 }
 
+
 const Shuttle: React.FC<ShuttleProps> = ({ options, selectedOptions, onChange }) => {
   const [availableOptions, setAvailableOptions] = useState<string[]>(options);
   const [selected, setSelected] = useState<string[]>(selectedOptions);
 
+
+
   useEffect(() => {
+    // handle the exchanging of variables between the lists
     setAvailableOptions(options.filter(option => !selected.includes(option)));
   }, [options, selected]);
 
+
+
+  // selecting and deselecting (handle in this component and the main page)
   const handleSelect = (option: string) => {
     setSelected(prev => [...prev, option]);
     onChange([...selected, option]);
@@ -25,12 +35,16 @@ const Shuttle: React.FC<ShuttleProps> = ({ options, selectedOptions, onChange })
     onChange(newSelected);
   };
 
+
+
   return (
     <div className="flex space-x-8">
+
+
       {/* Available Options */}
       <div className="flex flex-col w-1/2 p-4 border rounded-lg bg-gray-100">
         <h3 className="text-lg font-semibold mb-2 text-center">Available</h3>
-        <ul className="space-y-2">
+        <ul className="space-y-2 max-h-52 overflow-y-scroll">
           {availableOptions.map(option => (
             <li key={option} className="text-center">
               <button
@@ -43,6 +57,7 @@ const Shuttle: React.FC<ShuttleProps> = ({ options, selectedOptions, onChange })
           ))}
         </ul>
       </div>
+
 
       {/* Selected Options */}
       <div className="flex flex-col w-1/2 p-4 border rounded-lg bg-gray-100">
@@ -60,6 +75,8 @@ const Shuttle: React.FC<ShuttleProps> = ({ options, selectedOptions, onChange })
           ))}
         </ul>
       </div>
+
+
     </div>
   );
 };
