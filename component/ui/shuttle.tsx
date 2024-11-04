@@ -62,7 +62,7 @@ const Shuttle: React.FC<ShuttleProps> = ({ options, selectedOptions, onChange })
       {/* Selected Options */}
       <div className="flex flex-col w-1/2 p-4 border rounded-lg bg-gray-100">
         <h3 className="text-lg font-semibold mb-2 text-center">Selected</h3>
-        <ul className="space-y-2">
+        <ul className="space-y-2 max-h-52 overflow-y-scroll">
           {selected.map(option => (
             <li key={option} className="text-center">
               <button
