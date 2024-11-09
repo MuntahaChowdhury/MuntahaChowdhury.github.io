@@ -24,7 +24,6 @@ const CreateItemCategoryPage = () => {
 }
 
 const InnerCreateItemCategoryPage = () => {
-console.log('reacheded');
 
   const router = useRouter();
   const searchParams = useSearchParams();
