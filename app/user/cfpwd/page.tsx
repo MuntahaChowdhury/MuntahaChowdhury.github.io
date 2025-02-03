@@ -2,10 +2,17 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ReturnButton from "@/component/return";
 
+export default function CfpwdSuspense() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ChangePasswordPage />
+        </Suspense>
+    )
+}
 
 const ChangePasswordPage = () => {
     const v_router = useRouter();
@@ -172,4 +179,3 @@ const ChangePasswordPage = () => {
     );
 };
 
-export default ChangePasswordPage;
