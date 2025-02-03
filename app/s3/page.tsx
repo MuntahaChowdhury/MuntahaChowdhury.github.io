@@ -49,7 +49,7 @@ const S3UploadPage = () => {
       {/* <Header /> */}
       <div className="relative flex items-center justify-center min-h-screen px-4 py-10 text-white">
         <ReturnButton />    {/* Remove relative from above */}
-        <div className="shadow-lg rounded-xl p-8 max-w-md w-full bg-slate-800 bg-opacity-40">
+        <div className="form-bg">
           {/* Title */}
           <div className="text-center mb-6">
             <h2 className="text-3xl font-bold">Upload File to S3</h2>

@@ -133,7 +133,7 @@ const SignupPage = () => {
     return (
         <div className="signup-container relative flex items-center justify-center min-h-screen text-white px-4 mt-10">
             <ReturnButton />    {/* Remove relative from above */}
-            <div className="shadow-lg rounded-xl p-8 max-w-md w-full bg-slate-800 bg-opacity-40">
+            <div className="form-bg">
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold mt-4">Sign Up</h2>
                 </div>

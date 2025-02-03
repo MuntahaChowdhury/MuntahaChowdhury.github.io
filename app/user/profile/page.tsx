@@ -162,7 +162,7 @@ export default function UpdateUserProfile() {
     return (
         <div className="relative flex items-center justify-center text-white px-4 mt-10">
             <ReturnButton />    {/* Remove relative from above */}
-            <div className="shadow-lg rounded-xl p-8 max-w-4xl w-full bg-slate-800 bg-opacity-40">
+            <div className="form-bg !max-w-[75%]">
 
 
                 <div className="flex items-start justify-center space-x-6">

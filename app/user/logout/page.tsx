@@ -79,7 +79,7 @@ export default function Home() {
 
     return (
         <div className="flex items-center justify-center min-h-screen text-white px-4 mt-10">
-            <div className="shadow-lg rounded-xl p-8 max-w-md w-full bg-slate-800 bg-opacity-40">
+            <div className="form-bg">
                 {v_isLoggedIn ? (
                     <div className="flex items-center gap-4">
                         <span className="text-lg font-semibold">Welcome, {v_fullName}!</span>
