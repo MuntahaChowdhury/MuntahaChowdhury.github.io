@@ -1,89 +1,123 @@
-'use client'
-import React, { useState } from "react";
+// app/otp/page.tsx
 
-export default function TestOtpPage() {
-    const [toEmail, settoEmail] = useState('');
-    const [otpToCheck, setOtpToCheck] = useState('');
-    const [otp, setOtp] = useState('0');
-    const [statement, setStatement] = useState('');
+"use client";
+import { Suspense } from "react";
 
-    const genOTP = async () => {
-        try {
-            const hasOtpRes = await fetch('/api/genotp', { method: 'GET' });
-            const hasOtpResData = await hasOtpRes.json();
-            if (!hasOtpRes.ok) {
-                throw new Error(hasOtpResData.message);
-            }
-            setOtp(hasOtpResData.otp);
-            setStatement('OTP generated');
-            return hasOtpResData.otp;
-        } catch {
-            setStatement('Error with OTP [/app/otp]')
-        }
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import ReturnButton from "@/component/return";
+
+export default function OtpSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SendOtpPage />
+    </Suspense>
+  )
+}
+
+const SendOtpPage = () => {
+  const v_searchParams = useSearchParams();
+  const v_router = useRouter();
+
+  const p_email = v_searchParams.get("email") || "";
+  const p_mobile = v_searchParams.get("mobile") || "";
+  const p_redirectTo = v_searchParams.get("redirectTo") || "/";
+
+  const [v_generatedOtp, setGeneratedOtp] = useState("");
+  const [v_enteredOtp, setEnteredOtp] = useState("");
+  const [v_message, setMessage] = useState("");
+  const [v_loading, setLoading] = useState(false);
+
+  const handleSendOtp = async () => {
+    setLoading(true);
+    setMessage("");
+
+    try {
+      // Call API to generate OTP
+      const v_resRtOtp = await fetch("/api/genotp");
+      const v_resRtOtpWrap = await v_resRtOtp.json();
+      const v_itemOtp = v_resRtOtpWrap.otp;
+      setGeneratedOtp(v_itemOtp);
+
+      // Call API to send OTP via email
+      const v_resRtEmail = await fetch("/api/sendemail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ toEmail: p_email, otp: v_itemOtp }),
+      });
+
+      if (!v_resRtEmail.ok) {
+        throw new Error("Failed to send email.");
+      }
+
+      setMessage("OTP sent to your email successfully!");
+    } catch (error) {
+      console.error("Error in handleSendOtp:", error);
+      setMessage("Failed to send OTP.");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const sendOTP = async () => {
-        try {
-            const otp = await genOTP();
-            
-            const res = await fetch('/api/email/send', {
-                method: 'POST',
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ toEmail, otp })
-            })
-
-            if (!res.ok) {
-                throw new Error("Error sending OTP")
-            }
-
-            setStatement('OTP sent');
-        } catch {
-            setStatement('Error with OTP [/app/otp]')
-        }
+  const handleVerifyOtp = () => {
+    if (v_enteredOtp === v_generatedOtp) {
+      setMessage("OTP verified successfully!");
+      v_router.push(`${p_redirectTo}?verified=true`);
+    } else {
+      setMessage("Incorrect OTP. Please try again.");
     }
+  };
 
-    const checkOTP = async (e: React.ChangeEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (otpToCheck === otp) setStatement('OTP Matches!');
-        else setStatement('OTP did not match');
-    }
+  return (
+    <div className="relative flex items-center justify-center min-h-screen text-white px-4 mt-10">
+      <ReturnButton />    {/* Remove relative from above */}
 
-    return (
-        <>
+      <div className="shadow-lg rounded-xl p-8 max-w-md w-full bg-slate-800 bg-opacity-40">
 
-            <div className="flex flex-col items-center justify-center">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mt-4">Verify OTP</h2>
+        </div>
 
+        <p className="text-slate-300 bg-slate-900 p-4 rounded-lg">Email: {p_email}</p>
+        <p className="text-slate-300 bg-slate-900 p-4 rounded-lg my-4">Mobile: {p_mobile}</p>
 
-                <form onSubmit={checkOTP} className="flex flex-col items-start space-y-4 mt-6">
-                    {statement && <div className="text-red font-bold">{statement}</div>}
-                    <label htmlFor="toEmail">Enter OTP:</label>
-                    <input
-                        type="email"
-                        id="toEmail"
-                        name="toEmail"
-                        className="p-2 border-2"
-                        placeholder="email"
-                        value={toEmail}
-                        onChange={(e) => settoEmail(e.target.value)}
-                    />
-                    <button className="bg-red-200 p-2" onClick={() => sendOTP()}>Send OTP</button>
-                    <label htmlFor="otpToCheck">Enter OTP:</label>
-                    <input
-                        type="text"
-                        id="otpToCheck"
-                        name="otpToCheck"
-                        className="p-2 border-2"
-                        placeholder="otp"
-                        value={otpToCheck}
-                        onChange={(e) => setOtpToCheck(e.target.value)}
-                    />
-                    <button className="bg-red-200 p-2" type="submit">Check</button>
+        <button
+          onClick={handleSendOtp}
+          disabled={v_loading}
+        >
+          {v_loading ? "Sending OTP..." : "Send OTP"}
+        </button>
 
-                    <button className="bg-blue-200 p-2" onClick={() => {setOtpToCheck(''); settoEmail('')}}>Clear fields</button>
-                </form>
+        {v_generatedOtp && (
+          <div style={{ marginTop: "20px" }}>
+            <label>Enter OTP:</label>
+            <input
+              type="text"
+              value={v_enteredOtp}
+              onChange={(e) => setEnteredOtp(e.target.value)}
+            />
+            <button
+              onClick={handleVerifyOtp}
+              disabled={!v_enteredOtp}
+            >
+              Verify OTP
+            </button>
+          </div>
+        )}
 
-            </div>
-
-        </>
-    )
+        {v_message && (
+          <p
+            style={{
+              marginTop: "15px",
+              textAlign: "center",
+              color: v_message.includes("successfully") ? "#28A745" : "#FF0000",
+            }}
+          >
+            {v_message}
+          </p>
+        )}
+      </div>
+    </div>
+  );
 }

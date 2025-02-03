@@ -1,5 +1,6 @@
 // app/api/email/send/route.ts
 import { NextResponse } from "next/server";
+const v_epFnEmail = 'https://6a9dnycanc.execute-api.ap-southeast-1.amazonaws.com/email/sendOTP';
 
 export async function POST(req: Request) {
     try {
@@ -12,8 +13,8 @@ export async function POST(req: Request) {
             )
         }
 
-        const response = await fetch(
-            'https://6a9dnycanc.execute-api.ap-southeast-1.amazonaws.com/email/sendOTP',
+        const v_resFnEmail = await fetch(
+            v_epFnEmail,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -21,7 +22,7 @@ export async function POST(req: Request) {
             }
         )
 
-        if (!response.ok) {
+        if (!v_resFnEmail.ok) {
             throw new Error('Failed to send email');
         }
 

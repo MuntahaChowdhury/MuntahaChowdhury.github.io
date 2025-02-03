@@ -1,0 +1,9 @@
+[
+    { "label": "Profile", "path": "/user/profile" },
+    { "label": "My Cart", "path": "/cart" },
+    { "label": "My Orders", "path": "/orders" },
+    { "label": "Wishlist", "path": "/wishlist" },
+    { "label": "Dashboard", "path": "/user/dboard" },
+    { "label": "Change Password",   "path": "/user/cfpwd" },
+    { "label": "Logout", "path": "/user/logout", "className": "text-red-500" }
+  ]

@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --bru1: #F4E8D2;
+  --bru2: #D2BC95;
+  --bru3: #9D7168;
+  --bru4: #5E4042;
+  --bru5: #392728;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,4 +24,89 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Added CSS */
+
+.homeButton {
+  padding: 10px;
+  border: 2px solid var(--bru5);
+  border-radius: 15px;
+  font-family: 'Franklin Gothic Medium';
+  box-shadow: 1px 1px var(--bru5);
+  background-color: var(--bru3);
+}
+
+.homeButton:hover {
+  animation: fadeIn 0.15s ease-in-out;
+  background-color: #805f59;
+  box-shadow: 3px 3px var(--bru5);
+  transform: translateY(-3px);
+}
+
+.homeButton:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: none; /* Mimicking focus:ring-purple-300 */
+  border: 2px solid var(--bru5); /* focus:border-purple-300 */
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from {
+    background-color: var(--bru3);
+    transform: translateY(0);
+    box-shadow: 0px 0px var(--bru5);
+  }
+
+  to {
+    background-color: #805f59;
+    transform: translateY(-3px);
+    box-shadow: 3px 3px var(--bru5);
+  }
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+input {
+  margin-top: 0.5rem; /* mt-2 */
+  display: block; /* block */
+  width: 100%; /* w-full */
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem; /* px-4 */
+  padding-top: 0.75rem; /* py-3 */
+  padding-bottom: 0.75rem; /* py-3 */
+  background-color: var(--bru4); /* bg-slate-700 */
+  color: white; /* text-white */
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 1px 3px #f4e8d218; /* shadow-sm */
+  border: 1px solid var(--bru2); /* border-slate-600 */
+}
+
+input:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 0 3px #f4e8d25a; /* Mimicking focus:ring-purple-300 */
+  border-color: var(--bru3); /* focus:border-purple-300 */
+}
+
+button {
+  padding: 10px 15px;
+  border: 2px solid var(--bru3);
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+button:hover {
+  background-color: rgba(94, 64, 66, 0.50);
+}
+
+button:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 0 3px rgba(244, 232, 210, 0.353); /* Mimicking focus:ring-purple-300 */
+  border-color: var(--bru3); /* focus:border-purple-300 */
 }
