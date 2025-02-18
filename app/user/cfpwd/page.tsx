@@ -4,7 +4,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import ReturnButton from "@/component/return";
+import ReturnButton from "@/components/return";
 
 export default function CfpwdSuspense() {
     return (

@@ -6,7 +6,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import menuItemsData from '@/jds/user/UserMenu.json'; // Ensure this path is correct
-import ReturnButton from '@/component/return';
+import ReturnButton from '@/components/return';
 
 const UserMenu: React.FC = () => {
     const [v_isMenuOpen, setIsMenuOpen] = useState(false);

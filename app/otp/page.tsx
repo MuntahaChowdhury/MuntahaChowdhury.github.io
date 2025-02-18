@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import ReturnButton from "@/component/return";
+import ReturnButton from "@/components/return";
 
 export default function OtpSuspense() {
   return (

@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import ReturnButton from '@/component/return';
+import ReturnButton from '@/components/return';
 // import Image from 'next/image';
 
 export default function UpdateUserProfile() {

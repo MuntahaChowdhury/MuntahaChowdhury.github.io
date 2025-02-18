@@ -1,0 +1,41 @@
+[
+    {
+      "title": "Your Orders",
+      "links": [
+        { "href": "/orders", "label": "Track, return, or buy things again" }
+      ]
+    },
+    {
+      "title": "Profile & Security",
+      "links": [
+        { "href": "/user/cfpwd",   "label": "Change Password" },
+        { "href": "/user/profile", "label": "Change Profile" }
+      ]
+    },
+    {
+      "title": "Activities",
+      "links": [
+        { "href": "/itemcat", "label": "Item Category" }, 
+        { "href": "/item",    "label": "Manage Item" }
+      ]
+    },
+    {
+      "title": "Gift Cards",
+      "links": [
+        { "href": "/gift-cards", "label": "View balance and redeem cards" }
+      ]
+    },
+    {
+      "title": "Your Payments",
+      "links": [
+        { "href": "/payments", "label": "Manage payment methods and settings" }
+      ]
+    },
+    {
+      "title": "Your Addresses",
+      "links": [
+        { "href": "/addresses", "label": "Edit, add, or remove addresses" }
+      ]
+    }
+  ]
+  

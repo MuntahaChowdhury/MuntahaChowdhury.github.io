@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import ReturnButton from "@/component/return";
+import ReturnButton from "@/components/return";
 
 
 const SignupPage = () => {

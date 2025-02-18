@@ -9,7 +9,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import ReturnButton from "@/component/return";
+import ReturnButton from "@/components/return";
 
 export default function LoginPage() {
   const [v_loginMethod, setLoginMethod] = useState<"password" | "token">("password");

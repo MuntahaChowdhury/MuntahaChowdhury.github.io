@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 // import Header from "@/components/uishell/header";
 // import Footer from "@/components/uishell/Footer";
-import ReturnButton from "@/component/return";
+import ReturnButton from "@/components/return";
 
 const S3UploadPage = () => {
   const [v_cdomain, setCdomain] = useState("buyerpanda.com");
