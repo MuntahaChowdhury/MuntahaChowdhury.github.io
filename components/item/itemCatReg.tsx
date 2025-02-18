@@ -2,7 +2,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react";
-import { v_host } from "@/components/constants";
+// import { v_host } from "@/components/constants";
 
 interface Props {
     onSelectItemCat: (g_itemCat: string) => void;
@@ -17,14 +17,15 @@ export default function ItemCatReg({ onSelectItemCat }: Props) {
 
 
     useEffect(() => {
-        const v_epVw = `${v_host}/ridbiz/useritemcat/?mkrid=RIDBIZ&cdomain=buyerpanda.com`;
+        // const v_epVw = `${v_host}/ridbiz/useritemcat/?mkrid=RIDBIZ&cdomain=buyerpanda.com`;
 
         const fetchUserItemCat = async () => {
             try {
                 setLoading(true);
                 setError(null);
 
-                const v_resVw = await fetch(v_epVw);
+                // const v_resVw = await fetch(v_epVw);
+                const v_resVw = await fetch('/api/item/test');
                 if (!v_resVw.ok) throw new Error(`Failed to fetch data. Status: ${v_resVw.status}`);
                 const v_resVwWrap = await v_resVw.json();
                 const v_resVwData = v_resVwWrap.items;
