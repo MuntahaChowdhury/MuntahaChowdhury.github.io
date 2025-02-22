@@ -1,10 +1,12 @@
 // components/item/itemSkuReg.tsx
 
+// A. Imports from React and custom components.
 "use client";
 import React, { useState, useEffect } from "react";
-import { v_host } from "@/components/constants";
+import { useParams } from "next/navigation";
 import ItemSkuManage from "@/components/item/itemSkuManage"; // Import the modal component
 
+// B. Declare Interface and Props.
 interface ItemSku {
   itemid: number;
   itemmid: number;
@@ -16,52 +18,58 @@ interface ItemSku {
   sku: string;
 }
 
-interface Props {
-  p_itemmid: number | null;
-}
+//interface Props { p_itemmid: number | null;}
 
-export default function ItemReg({ p_itemmid }: Props) {
+
+// C. Open Main Function that exports HTML
+export default function ItemReg() {
+  // C1: Declare State Variables
   const [h_itemSkuReg, setItemSkuReg] = useState<ItemSku[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null); // Holds itemid for update/delete
+          //Nav-R1: Read Value from URL {Dynamic Route Parameters}
+                 const params = useParams();
+                 const v_itemmid = params.id ? Number(params.id) : null; // Convert to number if needed
+        
+         //Nav-P1: Declare State Variable
+          const [v_isModalOpen, setIsModalOpen] = useState(false);
+          const [v_selectedItemId, setSelectedItemId] = useState<number | null>(null); // Holds itemid for update/delete
 
- 
+         //Nov-P2: Define handle function [ ]  
+          const handleOpenModalNew = () => {    // Open modal for adding a new item
+                setSelectedItemId(null); // Ensure no itemid is set for new item
+                setIsModalOpen(true);
+            };
+           const handleOpenModalEdit = (itemid: number) => {    //// Open modal for updating/deleting an existing item
+                 setSelectedItemId(itemid);
+                 setIsModalOpen(true);
+            };
 
-  // Open modal for adding a new item
-  const handleOpenModalNew = () => {
-    setSelectedItemId(null); // Ensure no itemid is set for new item
-    setIsModalOpen(true);
-  };
 
-  // Open modal for updating/deleting an existing item
-  const handleOpenModalEdit = (itemid: number) => {
-    setSelectedItemId(itemid);
-    setIsModalOpen(true);
-  };
-
-/*   // Close the modal
-  const handleCloseModal = () => {
-    setIsModalOpen(true);
-  };
- */
-
- // Fetch item data when p_itemmid changes
+ // C2: Define useEffect.
  useEffect(() => {
-  if (!p_itemmid) return;
-  const v_epItemSku = `${v_host}/ridbiz/useritemsku/?itemmid=${p_itemmid}`;
   const fetchItemReg = async () => {
-    try {
-      setLoading(true);
-      setError(null);
+     if (!v_itemmid) return;
+     setLoading(true);
+     setError(null);
+  try {
+  // 1: Prepare ASKFOR and CONDITION.
+     const v_askfor = 'ITEMSKU';
+     const v_cnd = `itemmid=${v_itemmid}`;
+     const v_epRt = `/api/item/?askfor=${v_askfor}&cnd=${v_cnd}`;
 
-      const v_resVw = await fetch(v_epItemSku);
-      if (!v_resVw.ok) throw new Error(`Failed to fetch data. Status: ${v_resVw.status}`);
+  // 2: Call Route
+     const v_resRt = await fetch(v_epRt,{
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+      });  
+  // 3: Extract JSON-Object.
+      const v_resRtWrap = await v_resRt.json();        // Route Return-Build Full Part
+      const v_resRtStr = v_resRtWrap.data;             // Route Return-Build Data Part in JSON-String Format
+      const v_resRtData = v_resRtStr.map(JSON.parse);  // Route Return-Build Data Part in JSON-ObjectFormat
+  // 4: Load to State Variable.
+      setItemSkuReg(v_resRtData);
 
-      const v_resVwWrap = await v_resVw.json();
-      const v_resVwData = v_resVwWrap.items || [];
-      setItemSkuReg(v_resVwData);
     } catch (err) {
       console.error("❌ Fetch Error:", err);
       setError((err as Error).message);
@@ -71,61 +79,62 @@ export default function ItemReg({ p_itemmid }: Props) {
   };
 
   fetchItemReg();
-}, [p_itemmid]);
+}, [v_itemmid]);
 
+
+//D: Display Data on HTML from State Variable.
   return (
-    <div className="bg-bru3 p-6 rounded-lg shadow-lg">
-
+    <div className="bg-bru1 p-6 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold text-bru5 mb-4">Variants/SKU Register</h2>
-      {loading && <div className="text-center text-lg text-blue-700 font-semibold">Loading...</div>}
+
+      {loading && <div className="text-center text-lg text-bru3 font-semibold">Loading...</div>}
       {error && <div className="text-center text-red-600 font-semibold">{error}</div>}
 
-      {p_itemmid && (
-        <div className="mb-6 p-5 border rounded-lg bg-gray-200 shadow-md">
-          <h3 className="text-xl font-semibold text-gray-900">Item ID: {p_itemmid}</h3>
-          <button
-            onClick={handleOpenModalNew}
-            className="bg-bru5 my-4"
-          >
+      {v_itemmid && (
+        <div className="mb-6 p-5 border rounded-lg bg-white shadow-md">
+          <h3 className="text-xl font-semibold text-gray-900">Item ID: {v_itemmid}</h3>
+
+        {/* Nav-P31: HTML Add-New Button with OnClick */}
+          <button onClick={handleOpenModalNew} className="bg-bru4 my-2" >
             + Add New Variant
           </button>
 
+
           <p className="text-gray-800">
-            Below are the variants associated with the <strong>{p_itemmid}</strong> product.
+            Below are the variants associated with the <strong>{v_itemmid}</strong> product.
           </p>
         </div>
       )}
 
       {h_itemSkuReg.length > 0 ? (
-        <div className="overflow-x-auto max-h-80">
-          <table className="relative min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
-            <thead className="bg-bru2 text-black sticky top-0">
-              <tr>
-                <th className="border-2 border-bru4 p-3 text-left">Item ID</th>
-                <th className="border-2 border-bru4 p-3 text-left">First Variant</th>
-                <th className="border-2 border-bru4 p-3 text-left">Second Variant</th>
-                <th className="border-2 border-bru4 p-3 text-left">Purchase Price</th>
-                <th className="border-2 border-bru4 p-3 text-left">Sales Price</th>
-                <th className="border-2 border-bru4 p-3 text-left">Min stock</th>
-                <th className="border-2 border-bru4 p-3 text-left">SKU/Part No</th>
+        <div className="overflow-x-auto max-h-96">
+          <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
+            <thead className="text-white">
+              <tr className="bg-bru4 text-bru1 text-left">
+                <th className="border border-bru5 p-3">Item ID</th>
+                <th className="border border-bru5 p-3">First Variant</th>
+                <th className="border border-bru5 p-3">Second Variant</th>
+                <th className="border border-bru5 p-3">Purchase Price</th>
+                <th className="border border-bru5 p-3">Sales Price</th>
+                <th className="border border-bru5 p-3">Min stock</th>
+                <th className="border border-bru5 p-3">SKU/Part No</th>
               </tr>
             </thead>
             <tbody>
               {h_itemSkuReg.map((v_rcdItemSku, index) => (
+                // Nav-P32: Primary key column in Html-Table
                 <tr
                   key={index}
                   onClick={() => handleOpenModalEdit(v_rcdItemSku.itemid)} // Click to open modal for update/delete
-                  className={`border-t-2 border-gray-300 ${index % 2 === 0 ? "bg-white" : "bg-bru1"} hover:bg-blue-50 transition duration-200 cursor-pointer`}
+                  className={`border-t border-bru5 ${index % 2 === 0 ? "bg-bru2" : "bg-bru3"} hover:bg-gray-200 transition duration-200 cursor-pointer`}
                 >
-                  <td className="border-2 border-bru4 p-3 text-blue-700 hover:text-blue-900 font-medium">
-                    {v_rcdItemSku.itemid}
-                  </td>
-                  <td className="border-2 border-bru4 p-3 text-gray-900">{v_rcdItemSku.ivv1}</td>
-                  <td className="border-2 border-bru4 p-3 text-gray-900">{v_rcdItemSku.ivv2}</td>
-                  <td className="border-2 border-bru4 p-3 text-gray-900">{v_rcdItemSku.pp}</td>
-                  <td className="border-2 border-bru4 p-3 text-gray-800">{v_rcdItemSku.sp || "N/A"}</td>
-                  <td className="border-2 border-bru4 p-3 text-gray-900">{v_rcdItemSku.minstk}</td>
-                  <td className="border-2 border-bru4 p-3 text-gray-900">{v_rcdItemSku.sku}</td>
+                  <td className="border border-bru5 p-3 text-blue-900 hover:text-blue-500 hover:underline font-medium"> {v_rcdItemSku.itemid}  </td>
+                  <td className="border border-bru5 p-3 text-gray-900">{v_rcdItemSku.ivv1}</td>
+                  <td className="border border-bru5 p-3 text-gray-900">{v_rcdItemSku.ivv2}</td>
+                  <td className="border border-bru5 p-3 text-gray-900">{v_rcdItemSku.pp}</td>
+                  <td className="border border-bru5 p-3 text-gray-800">{v_rcdItemSku.sp || "N/A"}</td>
+                  <td className="border border-bru5 p-3 text-gray-900">{v_rcdItemSku.minstk}</td>
+                  <td className="border border-bru5 p-3 text-gray-900">{v_rcdItemSku.sku}</td>
                 </tr>
               ))}
             </tbody>
@@ -135,14 +144,18 @@ export default function ItemReg({ p_itemmid }: Props) {
         <p className="text-gray-800 text-lg text-center">No variants available for this Product.</p>
       )}
 
-      {/* Render the ItemSkuManage Modal */}
-      { isModalOpen &&   (
+
+      {/* Nav-P4: Rendering Receiver Page */}
+      { v_isModalOpen &&   (
         <ItemSkuManage
-          p_itemmid={selectedItemId ? null : p_itemmid} // Pass p_itemmid when adding a new item
-          p_itemid={selectedItemId} // Pass itemid when updating/deleting
+          p_itemmid={v_selectedItemId ? null : v_itemmid} // Pass p_itemmid when adding a new item
+          p_itemid={v_selectedItemId} // Pass itemid when updating/deleting
           onClose={() => setIsModalOpen(false) }// Close modal
         />
       )}
+
+
+
     </div>
   );
 }

@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"; // ✅ Mark this as a Client Component for React (Next.js)
+// ✅ A.Import React-lib and custom components. 
 
+"use client";  
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // ✅ Import Next.js router
-import { v_host } from "@/components/constants";
-import LOV from "@/components/shared/LOV"; // ✅ Import LOV component
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";  
+import LOV from "@/components/shared/LOV";  
 //import ItemSkuReg from "@/components/item/itemSkuReg"; // Import the ItemSkuReg component
 
 // Define props for Update
-interface ItemManageProps {
-  p_itemmid: number | null;
-}
+   //interface ItemManageProps {p_itemmid: number | null;}
 
-// ✅ Define TypeScript interface for item data structure
+
+// ✅ B.Define Interface and props (if needed)
 interface TypeItem {
   itemmid: number | null; // Use null to differentiate between an empty state and a real item
   itemcat: string;
@@ -28,15 +28,12 @@ interface TypeItem {
   operation: string;
 }
 
-export default function ItemManage({ p_itemmid }: ItemManageProps) {
-  const router = useRouter(); // ✅ Initialize Next.js router
+// ✅ C.Open Main Function that exports HTML
+export default function ItemManage() {
+   const router = useRouter(); // ✅ Initialize Next.js router
 
-  // ✅ Function to navigate back to /item/page.tsx
-  const handleCancel = () => {
-    router.push("/item");
-  };
 
-  // ✅ Define state to manage form data
+  // ✅ C1: Declare State Variables.
   const [formData, setFormData] = useState<TypeItem>({
     itemmid: null, // Initially null, will be updated when the item is saved
     itemcat: "",
@@ -52,36 +49,50 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
     operation: "ITEMMASTI", // API operation type
   });
 
-  //const [isSubmitted, setIsSubmitted] = useState(false); // ✅ Track submission state
-  //const [savedItemMid, setSavedItemMid] = useState<number | null>(null); // ✅ Store new itemmid after saving
+  // const [isSubmitted, setIsSubmitted] = useState(false); // ✅ Track submission state
+  // const [savedItemMid, setSavedItemMid] = useState<number | null>(null); // ✅ Store new itemmid after saving
   const [isLoading, setIsLoading] = useState(false); // ✅ Track loading state
 
-  // ✅ Function to fetch item data when p_itemmid is provided
+        //Nav-R1: Read Value from URL {Dynamic Route Parameters}
+          const params = useParams();
+          const pitemmid = params.id ? Number(params.id) : null; // Convert to number if needed
+ 
+
+  // ✅ C2: Define useEffect (reload)
   useEffect(() => {
     const fetchItemData = async () => {
-      if (p_itemmid !== null) {
-        setIsLoading(true); // Start loading
+      if (pitemmid !== null) {               //Nav-R2: Modify useEffect for execution
+        setIsLoading(true);  
+       
         try {
-          const v_resVw = await fetch(`${v_host}/ridbiz/useritemmast/?mkrid=RIDBIZ&cdomain=buyerpanda.com&itemmid=${p_itemmid}`);
-          if (!v_resVw.ok) {
-            throw new Error(`Failed to fetch item data: ${v_resVw.statusText}`);
-          }
-          const v_resVwWrap = await v_resVw.json();
-          const v_resVwData = v_resVwWrap.items;
-          console.log("ItemMID Data:", v_resVwData[0].itemmast);
-          // Update formData with the fetched data
+        // 1: Prepare ASKFOR and CONDITION.
+            const v_askfor = 'ITEMMAST';
+            const v_cnd = `itemmid=${pitemmid}`;
+            const v_epRt = `/api/item/?askfor=${v_askfor}&cnd=${v_cnd}`;
+        // 2: Call Route
+            const v_resRt = await fetch(v_epRt,{
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+           });  
+        // 3: Extract JSON-Object
+            const v_resRtWrap = await v_resRt.json();        // Route Return-Build Full Part
+            const v_resRtStr = v_resRtWrap.data;             // Route Return-Build Data Part in JSON-String Format
+            const v_resRtData = v_resRtStr.map(JSON.parse);  // Route Return-Build Data Part in JSON-ObjectFormat
+        
+
+          // 4: Load to State Variable.
           setFormData({
-            itemmid: v_resVwData[0].itemmid,
-            itemcat: v_resVwData[0].itemcat,
-            itemsrvc: v_resVwData[0].itemsrvc,
-            itemmast: v_resVwData[0].itemmast,
-            idesc: v_resVwData[0].idesc,
-            pub: v_resVwData[0].pub,
-            gp: v_resVwData[0].gp,
-            itemvar1: v_resVwData[0].itemvar1,
-            itemvar2: v_resVwData[0].itemvar2,
-            cdomain: v_resVwData[0].cdomain,
-            invgrp: v_resVwData[0].invgrp,
+            itemmid: v_resRtData[0].itemmid,
+            itemcat: v_resRtData[0].itemcat,
+            itemsrvc: v_resRtData[0].itemsrvc,
+            itemmast: v_resRtData[0].itemmast,
+            idesc: v_resRtData[0].idesc,
+            pub: v_resRtData[0].pub,
+            gp: v_resRtData[0].gp,
+            itemvar1: v_resRtData[0].itemvar1,
+            itemvar2: v_resRtData[0].itemvar2,
+            cdomain: v_resRtData[0].cdomain,
+            invgrp: v_resRtData[0].invgrp,
             operation: "ITEMMASTU", // Keep the operation type
           });
         } catch (error) {
@@ -94,26 +105,11 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
     };
 
     fetchItemData(); // Call the fetch function
-  }, [p_itemmid]); // Trigger when p_itemmid changes
+  }, [pitemmid]); // Trigger when p_itemmid changes
 
-  // ✅ Function to handle input changes in the form
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value })); // Update the state dynamically
-  };
+    // ✅ C3: Define Handle Functions ==================
 
-  // ✅ Function to handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission
-
-    if (formData.itemmid === null) {
-      await handleInsert(); // Call handleInsert if itemmid is null
-    } else {
-      await handleUpdate(); // Call handleUpdate if itemmid is not null
-    }
-  };
-
-  // ✅ Function to handle insert (POST)
+  // Handle insert (POST)
   const handleInsert = async () => {
     try {
       const v_resRt = await fetch("/api/item", {
@@ -150,7 +146,7 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
     }
   };
 
-  // ✅ Function to handle update (PUT)
+  // Handle update (PUT)
   const handleUpdate = async () => {
     try {
       const v_resRt = await fetch(`/api/item`, {
@@ -173,7 +169,7 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
     }
   };
 
-  // ✅ Function to handle delete (DELETE)
+  // Handle delete (DELETE)
   const handleDelete = async () => {
     if (formData.itemmid === null) {
       alert("No item to delete.");
@@ -206,43 +202,47 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
     }
   };
 
-  // ✅ Generalized function to handle LOV selection
+// Navigation
+  const handleCancel = () => {
+          router.push("/item");
+        };
+//input changes in the form
+   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+          const { name, value } = e.target;
+         setFormData((prevData) => ({ ...prevData, [name]: value })); // Update the state dynamically
+     };
+// Handle LOV selection
   const handleLOVChange = (field: keyof TypeItem) => (selectedOption: { value: string; label: string } | null) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: selectedOption ? selectedOption.value : "", // ✅ Store only `value`
-    }));
-  };
+       setFormData((prevData) => ({
+         ...prevData,
+        [field]: selectedOption ? selectedOption.value : "", // ✅ Store only `value`
+       }));
+    };
+  // Handle radio button changes
+   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+     setFormData((prevData) => ({ ...prevData, [name]: value })); // Update the state dynamically
+   };
 
-  // ✅ Function to handle radio button changes
-  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value })); // Update the state dynamically
-  };
 
+// D: Display Data on HTML from State Variable.   
   return (
-    <div className="min-h-screen px-4 sm:px-6 lg:px-8">
+    // <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="bg-transparent py-2 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Column: Form */}
-        <div className="flex-1 bg-bru1 rounded-lg shadow-xl overflow-hidden">
-
-
-
-          <div className="px-6 py-4 border-b border-bru2">
-            <h2 className="text-2xl font-semibold text-bru5">
-              {p_itemmid !== null ? "Edit Item" : "Add New Item"}
+        <div className="flex-1 bg-bru1 rounded-lg shadow-xl  h-[85vh] overflow-y-auto">
+          <div className="px-6 py-4 border-b border-bru3">
+            <h2 className="text-2xl font-semibold text-gray-800">
+              {pitemmid !== null ? "Edit Item" : "Add New Item"}
             </h2>
           </div>
-
-
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
               <p className="text-gray-600">Loading...</p>
             </div>
           ) : (
-
-
-            <form onSubmit={handleSubmit} className="px-6 py-4">
+            <div className="px-6 py-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* ✅ Item MID */}
                 <div>
@@ -252,7 +252,7 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
                     name="itemmid"
                     value={formData.itemmid !== null ? formData.itemmid : ""}
                     disabled
-                    className="block py-2 sm:text-sm text-black bg-gray-100"
+                    className="px-3 py-2 text-black border-bru3 shadow-sm sm:text-sm bg-bru2"
                   />
                 </div>
 
@@ -286,7 +286,7 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
                     name="itemmast"
                     value={formData.itemmast}
                     onChange={handleInputChange}
-                    className="block py-2 sm:text-sm text-black bg-gray-100"
+                    className="px-3 py-2 text-black border-gray-300 shadow-sm sm:text-sm bg-white"
                   />
                 </div>
 
@@ -298,7 +298,7 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
                     value={formData.idesc ?? ""}
                     onChange={handleInputChange}
                     rows={3}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-bru3 sm:text-sm"
                   />
                 </div>
 
@@ -326,7 +326,7 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
 
                 {/* ✅ Global */}
                 <div>
-                  <label className="block text-gray-700">Global</label>
+                  <label className="block text-sm font-medium text-gray-700">Global</label>
                   <div className="mt-1 space-x-4">
                     <label className="inline-flex items-center">
                       <input
@@ -335,9 +335,9 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
                         value="Y"
                         checked={formData.gp === "Y"}
                         onChange={handleRadioChange}
-                        className="accent-bru3"
+                        className="accent-bru5"
                       />
-                      <span className="ml-2 mt-1 text-bru4">Yes</span>
+                      <span className="ml-2 mt-2 text-bru4">Yes</span>
                     </label>
                     <label className="inline-flex items-center">
                       <input
@@ -346,16 +346,16 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
                         value="N"
                         checked={formData.gp === "N"}
                         onChange={handleRadioChange}
-                        className="accent-bru3"
+                        className="accent-bru5"
                       />
-                      <span className="ml-2 mt-1 text-bru4">No</span>
+                      <span className="ml-2 mt-2 text-bru4">No</span>
                     </label>
                   </div>
                 </div>
 
                 {/* ✅ Publication Status */}
                 <div>
-                  <label className="block text-gray-700">Publication</label>
+                  <label className="block text-sm font-medium text-gray-700">Publication</label>
                   <div className="mt-1 space-x-4">
                     <label className="inline-flex items-center">
                       <input
@@ -364,9 +364,9 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
                         value="Y"
                         checked={formData.pub === "Y"}
                         onChange={handleRadioChange}
-                        className="accent-bru3"
+                        className="accent-bru5"
                       />
-                      <span className="ml-2 mt-1 text-bru4">Yes</span>
+                      <span className="ml-2 mt-2 text-bru4">Yes</span>
                     </label>
                     <label className="inline-flex items-center">
                       <input
@@ -375,46 +375,47 @@ export default function ItemManage({ p_itemmid }: ItemManageProps) {
                         value="N"
                         checked={formData.pub === "N"}
                         onChange={handleRadioChange}
-                        className="accent-bru3"
+                        className="accent-bru5"
                       />
-                      <span className="ml-2 mt-1 text-bru4">No</span>
+                      <span className="ml-2 mt-2 text-bru4">No</span>
                     </label>
                   </div>
                 </div>
               </div>
 
-
-
               {/* Form Actions */}
               <div className="mt-6 flex justify-end space-x-4">
-
-                <button type="button" onClick={handleCancel} className="bg-bru5" >
+                {/* Cancel Button (always visible) */}
+                <button
+                  type="button"
+                  onClick={handleCancel}        className="bg-gray-500 border-gray-800 hover:bg-gray-600 hover:border-gray-900"
+                >
                   Cancel
                 </button>
 
-                <button
-                  type="submit"
-                  className="bg-bru4"
-                >
-                  {p_itemmid !== null ? "Update" : "Save"}
-                </button>
+                {/* Insert Button (only visible when p_itemmid is null) */}
+                {formData.itemmid === null && (
+                  <button onClick={handleInsert} className="bg-bru4">
+                    Create
+                  </button>
+                )}
 
-                {p_itemmid !== null && (
-                  <button
-                    type="button"
-                    onClick={handleDelete}
-                    className="bg-red-600 hover:bg-red-700 border-red-800"
-                  >
+                {/* Update Button (only visible when p_itemmid is not null) */}
+                {formData.itemmid !== null && (
+                  <button onClick={handleUpdate} className="bg-bru4">
+                    Update
+                  </button>
+                )}
+
+                {/* Delete Button (only visible when p_itemmid is not null) */}
+                {formData.itemmid !== null && (
+                  <button onClick={handleDelete} className="bg-red-500 border-red-800 hover:bg-red-600 hover:border-red-900">
                     Delete
                   </button>
                 )}
               </div>
-            </form>
+            </div>
           )}
-
-
-
-
         </div>
       </div>
     </div>

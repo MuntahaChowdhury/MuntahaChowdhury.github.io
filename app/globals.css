@@ -124,11 +124,11 @@ button:focus {
 
 ::-webkit-scrollbar {
   width: 6px;  /* Width of the vertical scrollbar */
-  height: auto; /* Height of the horizontal scrollbar */
+  height: 6px; /* Height of the horizontal scrollbar */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #6053399a; /* Gray color for the thumb */
+  background-color: #0000009a; /* Gray color for the thumb */
   border-radius: 6px;      /* Rounded thumb */
 }
 

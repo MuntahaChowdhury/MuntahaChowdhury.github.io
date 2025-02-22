@@ -1,17 +1,14 @@
 'use client';
 
 import ItemManage from '@/components/item/itemManage';
-// import { useRouter } from 'next/navigation';
 
 export default function AddItemPage() {
-  //   const router = useRouter();
-  //   const handleCancel = () => {
-  //     router.back(); // Navigate back when cancel is clicked
-  //   };
-
+ 
   return (
-    <div className='py-8'>
-      <ItemManage p_itemmid={null} />
+    // <div className="container mx-auto p-6 bg-white shadow-md rounded-lg">
+    <div className="container mx-auto p-6 bg-transparent rounded-lg">
+      {/* <h1 className="text-2xl font-bold mb-4">Add New Item</h1> */}
+      <ItemManage/>
     </div>
   );
 }

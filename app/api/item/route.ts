@@ -5,7 +5,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v_host } from "@/components/constants";
 //import axios from 'axios';
-// import { error } from 'console';
 
 // EndPoint URLs
 const v_epFnIns = `${v_host}/ridbiz/item/ins/`;
@@ -107,7 +106,7 @@ export async function DELETE(request: Request) {
 // GET request handler
 //============================================================================================
 export async function GET(req: Request) {
-    
+  console.log('GET route called');  
   // 1.  Extract Param
   const { searchParams } = new URL(req.url);
   const askfor = searchParams.get('askfor');  // Use lowercase as query parameters are usually lowercase.
@@ -121,7 +120,7 @@ export async function GET(req: Request) {
 
     // 3. Extract Stringified JSON-String from ORDS-Response. 
     const v_resFnStr = await v_resFnQry.json();  //SQL-Out rows as JSON String 
-   
+          //console.log('Get Api Data:',v_resFnStr);
     // 4.Build and Return Response  (Return-Build)
     return NextResponse.json(  { result: 'success', data: v_resFnStr },{status: 200} );
 
