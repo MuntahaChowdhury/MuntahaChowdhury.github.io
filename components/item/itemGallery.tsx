@@ -164,13 +164,37 @@ const ItemGallery = () => {
     }
 
     const handleRemoveImage = (index: number) => {
-        const v_imgToDlt = v_TEMPrcdItemSkuImgs[index];
-        setFormDataDlt((prevFormData) => ({
-            ...prevFormData,
-            skuImages: [...prevFormData.skuImages, v_imgToDlt], // Add the new file to the array
-        }));
-        v_TEMPrcdItemSkuImgs.splice(index, 1);
+        const v_imgUrlToDlt = v_TEMPrcdItemSkuImgs[index];
+
+        
+        if (v_formDataToAdd.tempSkuImageUrls.some((url) => url === v_imgUrlToDlt)) {   // If the image is newly added, remove it from formDataAdd
+
+            const v_dltSkuImgIndex = v_formDataToAdd.tempSkuImageUrls.indexOf(v_imgUrlToDlt);
+            const v_imgToDlt = v_formDataToAdd.skuImages[v_dltSkuImgIndex];
+
+            setFormDataAdd((prevFormData) => ({
+                ...prevFormData,
+                skuImages: prevFormData.skuImages.filter((file) => file !== v_imgToDlt),  // Compare object URL
+                tempSkuImageUrls: prevFormData.tempSkuImageUrls.filter((url) => url !== v_imgUrlToDlt),  // Remove URL from tempSkuImageUrls
+            }));
+        }
+        
+        else {                                                                          // If not newly added, put it in the queue to delete
+            setFormDataDlt((prevFormData) => ({
+                ...prevFormData,
+                skuImages: [...prevFormData.skuImages, v_imgUrlToDlt]
+            }));
+        }
+
+        // Make a copy of the array and remove the image at the specified index
+        const v_updatedSkuImages = [...v_TEMPrcdItemSkuImgs];
+        v_updatedSkuImages.splice(index, 1); // Remove image from the temporary array
+
+        // Update state to reflect the removed image
+        setImages(v_updatedSkuImages); // Update the temporary state array (for rendering or internal use)
     };
+
+
 
 
 
