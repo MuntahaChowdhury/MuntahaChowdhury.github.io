@@ -9,20 +9,27 @@ import { Autoplay, Thumbs } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/thumbs";
-import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
+import { CaretCircleLeft, CaretCircleRight, Plus, MinusCircle } from "@phosphor-icons/react";
 
 
 // B. Interface & Props
-// interface smth {}
-const v_TEMPrcdItemSkuImgs = [
+interface TypeItemAdd {
+    itemmid: number | null;
+    skuImages: File[];
+    tempSkuImageUrls: string[];
+}
+
+interface TypeItemDlt {
+    itemmid: number | null;
+    skuImages: string[];
+}
+
+const v_TEMPUPrcdItemSkuImgs = [
     "https://images.unsplash.com/photo-1519681393784-d120267933ba",
     "https://images.unsplash.com/photo-1516912481808-3406841bd33c",
     "https://images.unsplash.com/photo-1521747116042-5a810fda9664",
     "https://images.unsplash.com/photo-1481349518771-20055b2a7b24",
-    "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df",
-    "https://images.unsplash.com/photo-1444090542259-0af8fa96557e",
-    "https://images.unsplash.com/photo-1504439468489-c8920d796a29",
-    "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
+    "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df"
 ];
 
 
@@ -40,9 +47,18 @@ const ItemGallery = () => {
     // C1. State Variable
     const [v_loading, setLoading] = useState<boolean>(true);
     const [v_error, setError] = useState<string | null>('');
-    // const [v_rcdItemSkuImgs, setItemSkuImgs] = useState();
-    const [selectedImage, setSelectedImage] = useState<string>(v_TEMPrcdItemSkuImgs[0]);
+    const [selectedImage, setSelectedImage] = useState<string>(v_TEMPUPrcdItemSkuImgs[0]);
     const [isImageFullOpen, setIsImageFullOpen] = useState<boolean>(false);
+    const [v_TEMPrcdItemSkuImgs, setImages] = useState(v_TEMPUPrcdItemSkuImgs);
+    const [v_formDataToAdd, setFormDataAdd] = useState<TypeItemAdd>({
+        itemmid: null,
+        skuImages: [],
+        tempSkuImageUrls: [],
+    })
+    const [v_formDataToDlt, setFormDataDlt] = useState<TypeItemDlt>({
+        itemmid: null,
+        skuImages: [],
+    })
 
 
 
@@ -77,7 +93,7 @@ const ItemGallery = () => {
 
                 // C.4: Load to State Variable.
                 console.log(v_resRtData);
-                // setItemSkuImgs(v_resRtData);
+                // setImages(v_resRtData);
             } catch (err) {
                 console.error("❌ Fetch Error:", err);
                 setError((err as Error).message);
@@ -99,8 +115,10 @@ const ItemGallery = () => {
         }, 3000); // Auto-switch every 3 seconds
 
         return () => clearInterval(interval);
-    }, []);
+    }, [v_TEMPrcdItemSkuImgs]);
 
+
+    // ✅ C3: Handle Functions
     const handleImageArrowClick = (dir: string) => {
         setSelectedImage((prev) => {
             const currentIndex = v_TEMPrcdItemSkuImgs.findIndex((img) => img === prev);
@@ -116,10 +134,49 @@ const ItemGallery = () => {
         });
     };
 
+    const handleUpdate = () => {
+        // sending to api via POST
+        // Handle uploaded images
+        // and deleted images
+    }
+
+    const handleCancel = () => {
+        //revert all changes
+        window.location.reload();
+    }
+
+    const handleAddImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const v_files = event.target.files;
+
+        if (v_files && v_files[0]) {
+            const v_imgFile = v_files[0];
+            const v_tempImgUrl = URL.createObjectURL(v_imgFile)
+
+            // Update formData's skuImages array
+            setFormDataAdd((prevFormData) => ({
+                ...prevFormData,
+                skuImages: [...prevFormData.skuImages, v_imgFile], // Add the new file to the array
+                tempSkuImageUrls: [...prevFormData.tempSkuImageUrls, v_tempImgUrl]
+            }));
+
+            setImages((prevURLs) => [...prevURLs, v_tempImgUrl]);
+        }
+    }
+
+    const handleRemoveImage = (index: number) => {
+        const v_imgToDlt = v_TEMPrcdItemSkuImgs[index];
+        setFormDataDlt((prevFormData) => ({
+            ...prevFormData,
+            skuImages: [...prevFormData.skuImages, v_imgToDlt], // Add the new file to the array
+        }));
+        v_TEMPrcdItemSkuImgs.splice(index, 1);
+    };
 
 
+
+    //✅ D: Display Data on HTML from State Variable.
     return (
-        <div>
+        <div className="p-6">
             {v_loading && "Loading..."}
             {v_error ? v_error : "Failed to display images"}
 
@@ -141,13 +198,19 @@ const ItemGallery = () => {
                         >
                             {v_TEMPrcdItemSkuImgs.map((img, index) => (
                                 <SwiperSlide key={index}>
-                                    <img
-                                        src={img}
-                                        alt="Thumbnail"
-                                        className={`w-14 h-14 object-cover rounded cursor-pointer hover:scale-110 duration-300 ${selectedImage === img ? "border-2 border-blue-500" : ""
-                                            }`}
-                                        onClick={() => setSelectedImage(img)}
-                                    />
+                                    <div className="relative">
+                                        <img
+                                            src={img}
+                                            alt="Thumbnail"
+                                            className={`w-14 h-14 object-cover rounded cursor-alias hover:scale-110 duration-300 ${selectedImage === img ? "border-2 border-blue-500" : ""}`}
+                                            onClick={() => setSelectedImage(img)}
+                                        />
+                                        <MinusCircle size={18} color="red" weight="duotone" className="absolute top-0 right-0 bg-black rounded-2xl cursor-pointer" onClick={() => handleRemoveImage(index)} />
+                                        {v_formDataToAdd.tempSkuImageUrls.some((url) => url === img) && (
+                                            <div className="absolute top-0 left-0 bg-bru5 text-bru1 rounded-tl shadow-md text-xs p-1">New</div>
+                                        )}
+                                    </div>
+
                                 </SwiperSlide>
                             ))}
                         </Swiper>
@@ -155,16 +218,65 @@ const ItemGallery = () => {
 
                     {/* Right Side: Large Displayed Image + Arrows*/}
                     <div className="flex items-center relative">
-                        <img src={selectedImage} alt="Selected" className="w-[450px] h-[60vh] object-cover rounded-lg shadow-lg cursor-pointer" onClick={() => setIsImageFullOpen(true)} />
+                        <img src={selectedImage} alt="Selected" className="w-[450px] h-[60vh] object-cover rounded-lg shadow-lg cursor-zoom-in" onClick={() => setIsImageFullOpen(true)} />
                         <CaretCircleLeft size={32} weight="duotone" color="white" className="absolute top-[50%] left-0 z-2 cursor-pointer" onClick={() => handleImageArrowClick('prev')} />
                         <CaretCircleRight size={32} weight="duotone" color="white" className="absolute top-[50%] right-0 z-2 cursor-pointer" onClick={() => handleImageArrowClick('next')} />
                     </div>
+
+                    {v_formDataToDlt && (
+                        <div>
+                            <h2 className="text-2xl font-semibold text-bru1 mb-2">Removed images</h2>
+                            <div className="flex gap-4">
+                                {v_formDataToDlt.skuImages.map((img, index) => (
+                                    <img
+                                        key={index}
+                                        src={img}
+                                        alt="Thumbnail"
+                                        className={`w-14 h-14 object-cover rounded cursor-alias hover:scale-110 duration-300 ${selectedImage === img ? "border-2 border-blue-500" : ""
+                                            }`}
+                                        onClick={() => setSelectedImage(img)}
+                                    />
+
+                                ))}
+                            </div>
+                            <button onClick={handleCancel} className="bg-red-700 border-red-900 hover:bg-red-600 hover:border-red-900 w-full mt-4">
+                                Confirm Delete
+                            </button>
+                        </div>
+                    )}
 
                 </div>
 
             ) : (
                 <>No Image available</>
             )}
+
+            {/* Form Actions */}
+            <div className="flex justify-start space-x-4 px-4">
+                <button className="w-20 h-14 rounded bg-bru5 flex items-center justify-center" onClick={() => document.getElementById("file-input")?.click()}> {/* Trigger file input when clicking the button */}
+                    <Plus
+                        size={18}
+                        weight="bold"
+                        className="cursor-pointer"
+                    />
+                    <input
+                        type="file"
+                        id="file-input"
+                        className="hidden" // Hide the default file input
+                        onChange={handleAddImage}
+                    />
+                </button>
+
+                {/* {formData.itemid !== null && ( */}
+                <button onClick={handleUpdate} className="bg-bru5 w-full">
+                    Update
+                </button>
+                {/* )} */}
+
+                <button onClick={handleCancel} className="bg-gray-500 border-gray-800 hover:bg-gray-600 hover:border-gray-900 w-full">
+                    Cancel
+                </button>
+            </div>
 
             {isImageFullOpen && (
                 <div className="bg-black bg-opacity-80 fixed top-0 h-full w-full cursor-pointer" onClick={() => setIsImageFullOpen(false)}>
