@@ -30,7 +30,7 @@ export default function ItemSkuRegSuspense() {
   )
 }
 
-export default function ItemReg() {
+const ItemReg = () => {
   // C1: Declare State Variables
   const [h_itemSkuReg, setItemSkuReg] = useState<ItemSku[]>([]);
   const [error, setError] = useState<string | null>(null);
