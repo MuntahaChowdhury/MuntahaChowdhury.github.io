@@ -2,7 +2,7 @@
 
 // A. Imports from React and custom components.
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useParams } from "next/navigation";
 import ItemSkuManage from "@/components/item/itemSkuManage"; // Import the modal component
 
@@ -22,6 +22,14 @@ interface ItemSku {
 
 
 // C. Open Main Function that exports HTML
+export default function ItemSkuRegSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ItemReg />
+    </Suspense>
+  )
+}
+
 export default function ItemReg() {
   // C1: Declare State Variables
   const [h_itemSkuReg, setItemSkuReg] = useState<ItemSku[]>([]);

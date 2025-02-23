@@ -1,6 +1,6 @@
 //  A.Imports from React-Lib and custom components.
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 // B.Declare Interface and Props(if needed).
@@ -20,7 +20,15 @@ interface ItemDetail {
 //interface Props { p_itemCat: string | null;}
 
 //  C.Open Main Function that exports HTML
-export default function ItemReg() {
+export default function ItemRegSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ItemReg />
+    </Suspense>
+  )
+}
+
+const ItemReg = () => {
   // C1: Declare State Variables.
   const [h_itemReg, setItemReg] = useState<ItemDetail[]>([]);
   const [error, setError] = useState<string | null>(null);

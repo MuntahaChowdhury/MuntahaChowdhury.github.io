@@ -2,7 +2,7 @@
 // ✅ A.Import React-lib and custom components. 
 
 "use client";  
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";  
 import LOV from "@/components/shared/LOV";  
@@ -29,7 +29,15 @@ interface TypeItem {
 }
 
 // ✅ C.Open Main Function that exports HTML
-export default function ItemManage() {
+export default function ItemManageSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ItemManage />
+    </Suspense>
+  )
+}
+
+const ItemManage = () => {
    const router = useRouter(); // ✅ Initialize Next.js router
 
 
