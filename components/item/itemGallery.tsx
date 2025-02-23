@@ -200,7 +200,7 @@ const ItemGallery = () => {
 
     //✅ D: Display Data on HTML from State Variable.
     return (
-        <div className="p-6">
+        <div className="">
             {v_loading && "Loading..."}
             {v_error ? v_error : "Failed to display images"}
 
@@ -316,7 +316,7 @@ const ItemGallery = () => {
                             modules={[Autoplay, Thumbs]}
                             className="!w-auto"
                         >
-                            <SwiperSlide className="flex items-center justify-center !w-auto" onClick={(e) => e.stopPropagation()}>
+                            <SwiperSlide className="flex items-center justify-center !w-auto ml-2" onClick={(e) => e.stopPropagation()}>
                                 <img
                                     src={selectedImage} alt="Thumbnail"
                                     className="h-[60vh] object-cover rounded-lg"
