@@ -6,6 +6,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { S3Client, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
+
 // AWS S3 Configuration
 const s3Client = new S3Client({
   region: "ap-southeast-1",
@@ -15,9 +18,6 @@ const s3Client = new S3Client({
   },
 });
 
-
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
 const BUCKET_NAME = "ridbizecom";
 const S3_BASE_URL = `https://${BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com`;
 
