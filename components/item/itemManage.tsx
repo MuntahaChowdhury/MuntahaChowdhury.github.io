@@ -236,7 +236,7 @@ const ItemManage = () => {
 // D: Display Data on HTML from State Variable.   
   return (
     // <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-    <div className="bg-transparent py-2 px-4 sm:px-6 lg:px-8">
+    <div className="bg-transparent py-2 px-2 lg:px-4">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Column: Form */}
         <div className="flex-1 bg-bru1 rounded-lg shadow-xl  h-[85vh] overflow-y-auto">

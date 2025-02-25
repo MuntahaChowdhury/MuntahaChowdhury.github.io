@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import ItemGallery from '@/components/item/itemGallery'
+import ItemGallery from '@/components/shared/imageGallery'
 
 export default function TestPage() {
     return(
