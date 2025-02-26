@@ -108,10 +108,6 @@ const ItemImg = () => {
 
                 <div className="px-6 py-4">
 
-                    <button onClick={() => console.log(images)} className="bg-purple-700 border-purple-900 hover:bg-purple-600 hover:border-purple-900 w-full mt-4 text-sm">
-                        Show fetch images in console
-                    </button>
-
                     {/* Image Gallery */}
                     <div className="flex justify-center items-center mb-4">
                         <ImageGallery images={images} />
