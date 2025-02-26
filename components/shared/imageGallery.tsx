@@ -312,9 +312,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
 
                         </div>
                     )}
-                    <button onClick={() => console.log(images)} className="bg-red-700 border-red-900 hover:bg-red-600 hover:border-red-900 w-full mt-4 text-sm">
-                        Show received images in console
-                    </button>
+
 
                 </div>
 
@@ -322,7 +320,9 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
                 <>No Images available</>
             )}
 
-
+            <button onClick={() => console.log(images)} className="bg-red-700 border-red-900 hover:bg-red-600 hover:border-red-900 w-full mt-4 text-sm">
+                Show received images in console
+            </button>
             {isImageFullOpen && (
                 <div className="bg-black bg-opacity-80 fixed top-0 h-full w-full cursor-pointer" onClick={() => setIsImageFullOpen(false)}>
                     <CaretCircleLeft size={50} weight="bold" color="white" className="fixed top-[40%] left-[25%] z-10 cursor-pointer" onClick={(e) => { handleImageArrowClick('next'); e.stopPropagation(); }} />
