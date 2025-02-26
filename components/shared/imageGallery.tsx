@@ -236,8 +236,8 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
         setFormDataDlt((prevFormData) => ({
             ...prevFormData,
             skuImages: []
-          }));
-          
+        }));
+
     }
 
     // setLoading(false);
@@ -312,6 +312,9 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
 
                         </div>
                     )}
+                    <button onClick={() => console.log(images)} className="bg-red-700 border-red-900 hover:bg-red-600 hover:border-red-900 w-full mt-4 text-sm">
+                        Show received images in console
+                    </button>
 
                 </div>
 
