@@ -167,9 +167,11 @@ export async function GET(req: Request) {
     const { Contents } = await s3Client.send(command);
     if (!Contents || Contents.length === 0) { return NextResponse.json({ images: [] }, { status: 200 }); }
 
+    console.log(Contents)
+
     // Generate full image URLs
     const imageUrls = Contents.map((file: any) => `${S3_BASE_URL}/${file.Key}`);
-
+    console.log(imageUrls)
 
     return NextResponse.json({ images: imageUrls }, { status: 200 });
   } catch (error) {
