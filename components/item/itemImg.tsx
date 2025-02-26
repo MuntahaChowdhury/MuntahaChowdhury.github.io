@@ -78,11 +78,11 @@ const ItemImg = () => {
 
         const fetchImages = async () => {
             try {
-                // const v_epRt = `/api/s3?cdomain=${v_cdomain}&folder=${v_itemmid}`;
-                const v_resRt = await fetch(`/api/s3/?cdomain=${v_cdomain}&folder=${v_itemmid}`, { 
-                    method: "GET", 
-                    headers: { "Content-Type": "application/json" }, 
-                });
+                const v_epRt = `/api/s3/?cdomain=${v_cdomain}&folder=${v_itemmid}`;
+                const v_resRt = await fetch(v_epRt,{
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                 });  
                 const v_resRtData = await v_resRt.json();
                 if (v_resRtData.images) { setImages(v_resRtData.images); }
 
