@@ -79,10 +79,10 @@ const ItemImg = () => {
         const fetchImages = async () => {
             try {
                 const v_epRt = `/api/s3/?cdomain=${v_cdomain}&folder=${v_itemmid}`;
-                const v_resRt = await fetch(v_epRt,{
+                const v_resRt = await fetch(v_epRt, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
-                 });  
+                });
                 const v_resRtData = await v_resRt.json();
                 if (v_resRtData.images) { setImages(v_resRtData.images); }
 
@@ -106,7 +106,11 @@ const ItemImg = () => {
                 </div>
 
                 <div className="px-6 py-4">
-                    
+
+                    <button onClick={() => console.log(images)} className="bg-red-700 border-purple-900 hover:bg-purple-600 hover:border-red-900 w-full mt-4 text-sm">
+                        Show fetch images in console
+                    </button>
+
                     {/* Image Gallery */}
                     <div className="flex justify-center items-center mb-4">
                         <ImageGallery images={images} />
