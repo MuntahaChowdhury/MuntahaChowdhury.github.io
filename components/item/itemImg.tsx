@@ -84,6 +84,7 @@ const ItemImg = () => {
                     headers: { "Content-Type": "application/json" },
                 });
                 const v_resRtData = await v_resRt.json();
+                console.log(v_resRtData)
                 if (v_resRtData.images) { setImages(v_resRtData.images); }
 
             } catch (error) {
@@ -107,7 +108,7 @@ const ItemImg = () => {
 
                 <div className="px-6 py-4">
 
-                    <button onClick={() => console.log(images)} className="bg-red-700 border-purple-900 hover:bg-purple-600 hover:border-red-900 w-full mt-4 text-sm">
+                    <button onClick={() => console.log(images)} className="bg-purple-700 border-purple-900 hover:bg-purple-600 hover:border-purple-900 w-full mt-4 text-sm">
                         Show fetch images in console
                     </button>
 
