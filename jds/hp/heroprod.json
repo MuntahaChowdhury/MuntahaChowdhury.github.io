@@ -2,7 +2,7 @@
     "slides": [
         {
             "id": 1,
-            "imageUrl": "/tempImg/hp/hero1.jpg",
+            "imageUrl": "https://ridbizecom.s3.ap-southeast-1.amazonaws.com/buyerpanda.com/hp/hero1.webp",
             "headline": "Big Winter Sale",
             "subheadline": "Get up to 50% off on all items",
             "cta": "Show Now",
@@ -10,7 +10,7 @@
         },
         {
             "id": 2,
-            "imageUrl": "/tempImg/hp/hero2.jpg",
+            "imageUrl": "https://ridbizecom.s3.ap-southeast-1.amazonaws.com/buyerpanda.com/hp/hero2.webp",
             "headline": "New Arrivals!",
             "subheadline": "Check out the latest trends.",
             "cta": "Explore",
@@ -18,7 +18,7 @@
         },
         {
             "id": 3,
-            "imageUrl": "/tempImg/hp/hero3.jpg",
+            "imageUrl": "https://ridbizecom.s3.ap-southeast-1.amazonaws.com/buyerpanda.com/hp/hero3.webp",
             "headline": "Exclusive Deals",
             "subheadline": "Limited-time offers just for you.",
             "cta": "Grab Now",

@@ -54,10 +54,10 @@ export default function Hero() {
                                         alt=""
                                         width={1920}
                                         height={slide.id !== 1 ? "800" : "1080"}
-                                        className={`w-full min-h-full object-cover`}
+                                        className={`object-cover object-center h-full`}
                                     />
 
-                                    <div className={`absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 text-white rounded-lg`}>
+                                    <div className={`absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white rounded-lg`}>
                                         <h1 className="text-5xl font-bold">{slide.headline}</h1>
                                         <h2 className="my-3 text-xl">{slide.subheadline}</h2>
                                         <Link href={slide.ctaLink}>
