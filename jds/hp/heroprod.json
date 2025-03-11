@@ -6,8 +6,7 @@
             "headline": "Big Winter Sale",
             "subheadline": "Get up to 50% off on all items",
             "cta": "Show Now",
-            "ctaLink": "/shop",
-            "staticId": null
+            "ctaLink": "/shop"
         },
         {
             "id": 2,
@@ -15,8 +14,7 @@
             "headline": "New Arrivals!",
             "subheadline": "Check out the latest trends.",
             "cta": "Explore",
-            "ctaLink": "/new-arrivals",
-            "staticId": 4
+            "ctaLink": "/new-arrivals"
         },
         {
             "id": 3,
@@ -24,36 +22,33 @@
             "headline": "Exclusive Deals",
             "subheadline": "Limited-time offers just for you.",
             "cta": "Grab Now",
-            "ctaLink": "/deals",
-            "staticId": 4
+            "ctaLink": "/deals"
         }
     ],
-    "static": [
-        {
-            "id": 4,
-            "title": "Winter Deals",
-            "prods": [
-                {
-                    "prodImgUrl": "/tempImg/hp/hero4A.jpg",
-                    "prodLabel": "Winter Clothes on Sale",
-                    "prodLink": "///"
-                },
-                {
-                    "prodImgUrl": "/tempImg/hp/hero4B.jpg",
-                    "prodLabel": "Pandas on the market",
-                    "prodLink": "///"
-                },
-                {
-                    "prodImgUrl": "/tempImg/hp/hero4C.jpg",
-                    "prodLabel": "Shopping Cart for 50% off",
-                    "prodLink": "///"
-                },
-                {
-                    "prodImgUrl": "/tempImg/hp/hero4D.jpg",
-                    "prodLabel": "Autumn deals",
-                    "prodLink": "///"
-                }
-            ]
-        }
-    ]
+    "static": {
+        "id": 4,
+        "title": "Winter Deals",
+        "prods": [
+            {
+                "prodImgUrl": "/tempImg/hp/hero4A.jpg",
+                "prodLabel": "Winter Clothes on Sale",
+                "prodLink": "///"
+            },
+            {
+                "prodImgUrl": "/tempImg/hp/hero4B.jpg",
+                "prodLabel": "Pandas on the market",
+                "prodLink": "///"
+            },
+            {
+                "prodImgUrl": "/tempImg/hp/hero4C.jpg",
+                "prodLabel": "Shopping Cart for 50% off",
+                "prodLink": "///"
+            },
+            {
+                "prodImgUrl": "/tempImg/hp/hero4D.jpg",
+                "prodLabel": "Autumn deals",
+                "prodLink": "///"
+            }
+        ]
+    }
 }

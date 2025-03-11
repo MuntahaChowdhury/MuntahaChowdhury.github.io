@@ -21,7 +21,7 @@ import "swiper/css/navigation";
 export default function Hero() {
 
     const h_slides = HeroData.slides;
-    const h_staticSlides = HeroData.static;
+    const h_staticSlide = HeroData.static;
     const swiperRef = useRef<SwiperType | null>(null);
 
     return (
@@ -29,97 +29,88 @@ export default function Hero() {
 
             <div className="h-20 bg-black text-white flex items-center justify-center">Header space</div>
 
-            <Swiper
-                loop={true}
-                autoplay={{ delay: 3000 }}
-                modules={[Autoplay, Thumbs, Pagination, Navigation]}
-                className="w-full h-[75vh]"
-                pagination={{
-                    clickable: true,
-                    type: 'bullets',
-                    bulletClass: 'swiper-pagination-bullet', // Custom class for bullets
-                    bulletActiveClass: 'swiper-pagination-bullet-active', // Custom active bullet class
-                }}
-                onSwiper={(swiper) => (swiperRef.current = swiper)} // Store swiper instance
-            >
-                {h_slides.map((slide) => (
-                    <SwiperSlide key={slide.id}>
-                        <div className="grid grid-cols-3 grid-rows-1 h-full py-2 px-4">
+            <div className="grid grid-cols-3 py-2 px-4">
+                <div className="relative col-span-2">
 
-                            {/* Main ---------------------------------------------------------------------- */}
-                            <div className={`relative max-h-full ${slide.staticId === null ? "col-span-3" : "col-span-2"}`}>
-                                <Image
-                                    src={slide.imageUrl}
-                                    alt=""
-                                    width={1920}
-                                    height={slide.staticId === null ? "800" : "1080"}
-                                    className={`w-full h-full object-cover rounded-lg`}
-                                />
+                    <Swiper
+                        loop={true}
+                        autoplay={{ delay: 3000 }}
+                        modules={[Autoplay, Thumbs, Pagination, Navigation]}
+                        className="w-full h-[75vh]"
+                        pagination={{
+                            clickable: true,
+                            type: 'bullets',
+                            bulletClass: 'swiper-pagination-bullet', // Custom class for bullets
+                            bulletActiveClass: 'swiper-pagination-bullet-active', // Custom active bullet class
+                        }}
+                        onSwiper={(swiper) => (swiperRef.current = swiper)} // Store swiper instance
+                    >
+                        {h_slides.map((slide) => (
+                            <SwiperSlide key={slide.id}>
+                                {/* Main ---------------------------------------------------------------------- */}
+                                <div className="h-full relative">
+                                    <Image
+                                        src={slide.imageUrl}
+                                        alt=""
+                                        width={1920}
+                                        height={slide.id !== 1 ? "800" : "1080"}
+                                        className={`w-full min-h-full object-cover rounded-lg`}
+                                    />
 
-                                <div className={`absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 text-white rounded-lg`}>
-                                    <h1 className="text-5xl font-bold">{slide.headline}</h1>
-                                    <h2 className="my-3 text-xl">{slide.subheadline}</h2>
-                                    <Link href={slide.ctaLink}>
-                                        <button> {slide.cta} </button>
+                                    <div className={`absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 text-white rounded-lg`}>
+                                        <h1 className="text-5xl font-bold">{slide.headline}</h1>
+                                        <h2 className="my-3 text-xl">{slide.subheadline}</h2>
+                                        <Link href={slide.ctaLink}>
+                                            <button> {slide.cta} </button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+
+                    </Swiper>
+
+                    {/* Custom Navigation Buttons */}
+                    <div
+                        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 cursor-pointer hover:bg-black rounded-full"
+                        onClick={() => swiperRef.current?.slidePrev()}
+                    >
+                        <CaretCircleLeft size={32} color="orange" weight="duotone" />
+                    </div>
+
+                    <div
+                        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 cursor-pointer hover:bg-black rounded-full"
+                        onClick={() => swiperRef.current?.slideNext()}
+                    >
+                        <CaretCircleRight size={32} color="orange" weight="duotone" />
+                    </div>
+                </div>
+
+                {/* Static ---------------------------------------------------------------------- */}
+                {h_staticSlide !== null && (
+                    <div key={h_staticSlide.id} className="p-4 rounded-lg mx-2 h-full bg-bru1 shadow-2xl flex flex-col">
+                        <h3 className="font-bold tracking-wider text-xl mb-3">{h_staticSlide.title}</h3>
+                        <div className="grid grid-cols-2 gap-2 flex-1">
+                            {h_staticSlide.prods.map((prod, index) => (
+                                <div key={index} className="p-2 flex flex-col justify-center items-center">
+                                    <Image
+                                        src={prod.prodImgUrl}
+                                        width={1920}
+                                        height={900}
+                                        alt={prod.prodLabel}
+                                        className="shadow-lg border-2 border-bru2 rounded-md hover:shadow-xl"
+                                    />
+                                    <Link href={prod.prodLink} className="text-xs font-bold tracking-wider hover:underline cursor-pointer mt-2 text-center">
+                                        {prod.prodLabel}
                                     </Link>
                                 </div>
-                            </div>
-
-
-                            {/* Static ---------------------------------------------------------------------- */}
-                            {slide.staticId !== null && (
-                                // Find the static slide that matches the staticId
-                                (() => {
-                                    const staticSlide = h_staticSlides.find((s) => s.id === slide.staticId);
-                                    if (!staticSlide) return null;  // Return null if no matching static slide is found
-
-                                    return (
-                                        <div key={staticSlide.id} className="p-4 rounded-lg mx-2 h-full bg-bru1 shadow-2xl flex flex-col">
-
-
-                                            <h3 className="font-bold tracking-wider text-xl mb-3">{staticSlide.title}</h3>
-                                            <div className="grid grid-cols-2 gap-2 flex-1">
-                                                {staticSlide.prods.map((prod, index) => (
-                                                    <div key={index} className="p-2 flex flex-col justify-center items-center">
-                                                        <Image
-                                                            src={prod.prodImgUrl}
-                                                            width={1920}
-                                                            height={900}
-                                                            alt={prod.prodLabel}
-                                                            className="shadow-lg border-2 border-bru2 rounded-md hover:shadow-xl"
-                                                        />
-                                                        <Link href={prod.prodLink} className="text-xs font-bold tracking-wider hover:underline cursor-pointer mt-2 text-center">
-                                                            {prod.prodLabel}
-                                                        </Link>
-                                                    </div>
-                                                ))}
-                                            </div>
-
-
-                                        </div>
-                                    );
-                                })()
-                            )}
-
+                            ))}
                         </div>
-                    </SwiperSlide>
-                ))}
 
-            </Swiper>
 
-            {/* Custom Navigation Buttons */}
-            <div
-                className="absolute left-6 top-1/2 -translate-y-1/2 z-10 cursor-pointer hover:bg-black rounded-full"
-                onClick={() => swiperRef.current?.slidePrev()}
-            >
-                <CaretCircleLeft size={32} color="orange" weight="duotone" />
-            </div>
+                    </div>
+                )}
 
-            <div
-                className="absolute right-6 top-1/2 -translate-y-1/2 z-10 cursor-pointer hover:bg-black rounded-full"
-                onClick={() => swiperRef.current?.slideNext()}
-            >
-                <CaretCircleRight size={32} color="orange" weight="duotone" />
             </div>
         </section>
     )
