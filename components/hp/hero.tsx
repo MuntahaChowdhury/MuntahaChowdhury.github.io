@@ -33,7 +33,7 @@ export default function Hero() {
                 loop={true}
                 autoplay={{ delay: 3000 }}
                 modules={[Autoplay, Thumbs, Pagination, Navigation]}
-                className="w-full h-[85vh]"
+                className="w-full h-[75vh]"
                 pagination={{
                     clickable: true,
                     type: 'bullets',
@@ -44,19 +44,19 @@ export default function Hero() {
             >
                 {h_slides.map((slide) => (
                     <SwiperSlide key={slide.id}>
-                        <div className="grid grid-cols-3 grid-rows-1 h-full ">
+                        <div className="grid grid-cols-3 grid-rows-1 h-full py-2 px-4">
 
                             {/* Main ---------------------------------------------------------------------- */}
                             <div className={`relative max-h-full ${slide.staticId === null ? "col-span-3" : "col-span-2"}`}>
                                 <Image
                                     src={slide.imageUrl}
                                     alt=""
-                                    width={100}
-                                    height={100}
-                                    className={`w-full h-full object-cover ${slide.staticId !== null && ""}`}
+                                    width={1920}
+                                    height={slide.staticId === null ? "800" : "1080"}
+                                    className={`w-full h-full object-cover rounded-lg`}
                                 />
 
-                                <div className={`absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 text-white ${slide.staticId !== null && ""}`}>
+                                <div className={`absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 text-white rounded-lg`}>
                                     <h1 className="text-5xl font-bold">{slide.headline}</h1>
                                     <h2 className="my-3 text-xl">{slide.subheadline}</h2>
                                     <Link href={slide.ctaLink}>
@@ -74,7 +74,7 @@ export default function Hero() {
                                     if (!staticSlide) return null;  // Return null if no matching static slide is found
 
                                     return (
-                                        <div key={staticSlide.id} className="p-4 rounded-lg mx-2 my-4 bg-bru1 shadow-2xl flex flex-col">
+                                        <div key={staticSlide.id} className="p-4 rounded-lg mx-2 h-full bg-bru1 shadow-2xl flex flex-col">
 
 
                                             <h3 className="font-bold tracking-wider text-xl mb-3">{staticSlide.title}</h3>
@@ -83,10 +83,10 @@ export default function Hero() {
                                                     <div key={index} className="p-2 flex flex-col justify-center items-center">
                                                         <Image
                                                             src={prod.prodImgUrl}
-                                                            width={100}
-                                                            height={100}
+                                                            width={1920}
+                                                            height={900}
                                                             alt={prod.prodLabel}
-                                                            className="flex-grow w-auto shadow-lg border-2 border-bru2 rounded-full"
+                                                            className="shadow-lg border-2 border-bru2 rounded-md hover:shadow-xl"
                                                         />
                                                         <Link href={prod.prodLink} className="text-xs font-bold tracking-wider hover:underline cursor-pointer mt-2 text-center">
                                                             {prod.prodLabel}
@@ -109,17 +109,17 @@ export default function Hero() {
 
             {/* Custom Navigation Buttons */}
             <div
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 cursor-pointer hover:bg-orange-400 rounded-full"
+                className="absolute left-6 top-1/2 -translate-y-1/2 z-10 cursor-pointer hover:bg-black rounded-full"
                 onClick={() => swiperRef.current?.slidePrev()}
             >
-                <CaretCircleLeft size={32} weight="duotone" />
+                <CaretCircleLeft size={32} color="orange" weight="duotone" />
             </div>
 
             <div
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 cursor-pointer hover:bg-orange-400 rounded-full"
+                className="absolute right-6 top-1/2 -translate-y-1/2 z-10 cursor-pointer hover:bg-black rounded-full"
                 onClick={() => swiperRef.current?.slideNext()}
             >
-                <CaretCircleRight size={32} weight="duotone" />
+                <CaretCircleRight size={32} color="orange" weight="duotone" />
             </div>
         </section>
     )
