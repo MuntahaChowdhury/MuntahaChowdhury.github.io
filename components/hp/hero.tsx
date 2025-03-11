@@ -36,7 +36,7 @@ export default function Hero() {
                         loop={true}
                         autoplay={{ delay: 3000 }}
                         modules={[Autoplay, Thumbs, Pagination, Navigation]}
-                        className="w-full h-[75vh]"
+                        className="w-full h-[75vh] rounded-lg"
                         pagination={{
                             clickable: true,
                             type: 'bullets',
@@ -54,7 +54,7 @@ export default function Hero() {
                                         alt=""
                                         width={1920}
                                         height={slide.id !== 1 ? "800" : "1080"}
-                                        className={`w-full min-h-full object-cover rounded-lg`}
+                                        className={`w-full min-h-full object-cover`}
                                     />
 
                                     <div className={`absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 text-white rounded-lg`}>
