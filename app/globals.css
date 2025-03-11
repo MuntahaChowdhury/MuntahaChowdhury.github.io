@@ -81,7 +81,7 @@ input {
   padding-top: 0.75rem; /* py-3 */
   padding-bottom: 0.75rem; /* py-3 */
   background-color: var(--bru4); /* bg-slate-700 */
-  color: white; /* text-white */
+  color: black; /* text-white */
   border-radius: 0.5rem; /* rounded-lg */
   box-shadow: 0 1px 3px #f4e8d218; /* shadow-sm */
   border: 1px solid var(--bru2); /* border-slate-600 */
@@ -136,4 +136,28 @@ button:focus {
   background-color: #130e0e6b;
   border-radius: 6px;      /* Rounded thumb */
 }
+
+
+
+/* Basic styling for pagination bullets */
+.swiper-pagination {
+  bottom: 10px; /* Position the pagination */
+  z-index: 10;  /* Ensure it appears above other elements */
+}
+
+.swiper-pagination-bullet {
+  background-color: #ddd !important;  /* Default color */
+}
+
+.swiper-pagination-bullet-active {
+  background-color: orange !important;  /* Active bullet color */
+}
+
+/* Optional: Hover effect for bullets */
+.swiper-pagination-bullet:hover {
+  background-color: #999;
+}
+
+
+
 

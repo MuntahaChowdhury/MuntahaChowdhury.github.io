@@ -30,7 +30,7 @@ export default function Home() {
         <button className="homeButton" onClick={() => window.location.href = "/user/profile"}>User/Profile</button>
         <button className="homeButton" onClick={() => window.location.href = "/user/cfpwd"}>User/Password</button>
         <button className="homeButton" onClick={() => window.location.href = "/user/dboard"}>User/Dashboard</button>
-        <button className="homeButton" onClick={() => window.location.href = "/ct"}>Item Gallery</button>
+        <button className="homeButton" onClick={() => window.location.href = "/hp"}>Hero Section</button>
       </div>
 
     </div>

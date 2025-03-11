@@ -1,0 +1,59 @@
+{
+    "slides": [
+        {
+            "id": 1,
+            "imageUrl": "https://ridbizecom.s3.ap-southeast-1.amazonaws.com/buyerpanda.com/hp/hero1.webp",
+            "headline": "Big Winter Sale",
+            "subheadline": "Get up to 50% off on all items",
+            "cta": "Show Now",
+            "ctaLink": "/shop",
+            "staticId": null
+        },
+        {
+            "id": 2,
+            "imageUrl": "https://ridbizecom.s3.ap-southeast-1.amazonaws.com/buyerpanda.com/hp/hero2.webp",
+            "headline": "New Arrivals!",
+            "subheadline": "Check out the latest trends.",
+            "cta": "Explore",
+            "ctaLink": "/new-arrivals",
+            "staticId": 4
+        },
+        {
+            "id": 3,
+            "imageUrl": "https://ridbizecom.s3.ap-southeast-1.amazonaws.com/buyerpanda.com/hp/hero3.webp",
+            "headline": "Exclusive Deals",
+            "subheadline": "Limited-time offers just for you.",
+            "cta": "Grab Now",
+            "ctaLink": "/deals",
+            "staticId": 4
+        }
+    ],
+    "static": [
+        {
+            "id": 4,
+            "title": "Winter Deals",
+            "prods": [
+                {
+                    "prodImgUrl": "https://ridbizecom.s3.ap-southeast-1.amazonaws.com/buyerpanda.com/hp/hero3.webp",
+                    "prodLabel": "Winter Clothes on Sale",
+                    "prodLink": "///"
+                },
+                {
+                    "prodImgUrl": "https://ridbizecom.s3.ap-southeast-1.amazonaws.com/buyerpanda.com/hp/hero2.webp",
+                    "prodLabel": "Pandas on the market",
+                    "prodLink": "///"
+                },
+                {
+                    "prodImgUrl": "https://ridbizecom.s3.ap-southeast-1.amazonaws.com/buyerpanda.com/hp/hero1.webp",
+                    "prodLabel": "Shopping Cart for 50% off",
+                    "prodLink": "///"
+                },
+                {
+                    "prodImgUrl": "https://ridbizecom.s3.ap-southeast-1.amazonaws.com/buyerpanda.com/hp/hero3.webp",
+                    "prodLabel": "Autumn deals",
+                    "prodLink": "///"
+                }
+            ]
+        }
+    ]
+}

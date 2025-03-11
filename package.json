@@ -13,9 +13,11 @@
     "@phosphor-icons/react": "^2.1.7",
     "axios": "^1.7.9",
     "cookies-next": "^5.1.0",
+    "lucide-react": "^0.477.0",
     "next": "15.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-responsive-carousel": "^3.2.23",
     "react-select": "^5.8.2",
     "swiper": "^11.2.4"
   },
