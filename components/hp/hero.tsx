@@ -29,7 +29,7 @@ export default function Hero() {
 
             <div className="h-20 bg-black text-white flex items-center justify-center">Header space</div>
 
-            <div className="grid grid-cols-3 py-2 px-4">
+            <div className="grid grid-cols-3 py-2 px-4 h-[75vh]">
                 <div className="relative col-span-2">
 
                     <Swiper
@@ -88,17 +88,17 @@ export default function Hero() {
 
                 {/* Static ---------------------------------------------------------------------- */}
                 {h_staticSlide !== null && (
-                    <div key={h_staticSlide.id} className="p-4 rounded-lg mx-2 h-full bg-bru1 shadow-2xl flex flex-col">
+                    <div key={h_staticSlide.id} className="p-4 rounded-lg mx-2 h-[75vh] bg-bru1 shadow-2xl flex flex-col">
                         <h3 className="font-bold tracking-wider text-xl mb-3">{h_staticSlide.title}</h3>
-                        <div className="grid grid-cols-2 gap-2 flex-1">
+                        <div className="grid grid-cols-2 grid-rows-1fr gap-2 flex-1">
                             {h_staticSlide.prods.map((prod, index) => (
-                                <div key={index} className="p-2 flex flex-col justify-center items-center">
+                                <div key={index} className="p-2 flex flex-col justify-start items-center">
                                     <Image
                                         src={prod.prodImgUrl}
-                                        width={1920}
-                                        height={900}
+                                        width={130}
+                                        height={130}
                                         alt={prod.prodLabel}
-                                        className="shadow-lg border-2 border-bru2 rounded-md hover:shadow-xl"
+                                        className="max-h-[10vw] shadow-lg border-2 border-bru2 rounded-full hover:shadow-xl"
                                     />
                                     <Link href={prod.prodLink} className="text-xs font-bold tracking-wider hover:underline cursor-pointer mt-2 text-center">
                                         {prod.prodLabel}

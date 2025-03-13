@@ -30,22 +30,22 @@
         "title": "Winter Deals",
         "prods": [
             {
-                "prodImgUrl": "/tempImg/hp/hero4A.jpg",
+                "prodImgUrl": "/tempImg/hp/hero4A.webp",
                 "prodLabel": "Winter Clothes on Sale",
                 "prodLink": "///"
             },
             {
-                "prodImgUrl": "/tempImg/hp/hero4B.jpg",
+                "prodImgUrl": "/tempImg/hp/hero4B.webp",
                 "prodLabel": "Pandas on the market",
                 "prodLink": "///"
             },
             {
-                "prodImgUrl": "/tempImg/hp/hero4C.jpg",
+                "prodImgUrl": "/tempImg/hp/hero4C.webp",
                 "prodLabel": "Shopping Cart for 50% off",
                 "prodLink": "///"
             },
             {
-                "prodImgUrl": "/tempImg/hp/hero4D.jpg",
+                "prodImgUrl": "/tempImg/hp/hero4D.webp",
                 "prodLabel": "Autumn deals",
                 "prodLink": "///"
             }
